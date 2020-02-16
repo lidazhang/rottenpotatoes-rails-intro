@@ -13,3 +13,82 @@
  *= require_tree .
  *= require_self
  */
+ 
+html, body {
+  background: White;
+  color: DarkSlateGrey;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 10pt;
+}
+
+
+div#main {
+  margin: 0;
+  padding: 0 20px 20px;
+}
+
+a {
+  background: transparent;
+  color: maroon;
+  text-decoration: blink underline;
+}
+
+
+h1.title {
+  color: White;
+  font-size: 300%;
+  width: 100%;
+  padding: 10px;
+  border-top: 4px solid gold;
+  border-bottom: 4px solid gold;
+  border-left: 4px solid gold;
+  border-right: 4px solid gold;
+  font-style: normal;
+  background: orange;
+}
+
+div.navbar {
+  background: White !important;
+}
+
+h2 {
+  margin: 10px;
+  color: maroon;
+  font-size: 200%;
+  font-style: italic;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  border-bottom: 2px solid DarkSlateGrey;
+}
+
+table#movies {
+  margin: 10px;
+  border-collapse: collapse;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+
+table#movies th {
+  border: 2px solid white;
+  font-weight: bold;
+  font-size: medium;
+  color: maroon;
+  
+  background-color: wheat;
+}
+
+table#movies th:first-child {
+    background-color: yellow;
+    text-decoration: underline;
+    
+}
+
+table#movies th:nth-child(2) {
+    color: DarkSlateGrey;
+}
+
+table#movies th:nth-child(3) {
+    text-decoration: underline;
+}
+
