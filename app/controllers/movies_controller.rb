@@ -1,4 +1,12 @@
 class MoviesController < ApplicationController
+  
+  def catagory(header)
+    if params[:sort] == header
+      'hilite'
+    end
+    # redirect_to movies_path
+  end
+  helper_method :catagory
 
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
@@ -11,7 +19,15 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @sort = params[:sort]
+    @ratings = params[:ratings]
+    if @ratings == nil
+      @movies = Movie.order(@sort)
+    else
+      ratings = @ratings.keys
+      @movies = Movie.where(rating: ratings).order(@sort)
+    end
+    @all_ratings = Movie.collect
   end
 
   def new
