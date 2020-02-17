@@ -74,12 +74,14 @@ table#movies th {
   font-weight: bold;
   font-size: medium;
   color: maroon;
-  
   background-color: wheat;
 }
 
-table#movies th:first-child {
+table#movies th.hilite {
     background-color: yellow;
+}
+
+table#movies th:first-child {
     text-decoration: underline;
     
 }
