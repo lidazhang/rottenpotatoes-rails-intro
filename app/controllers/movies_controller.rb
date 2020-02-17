@@ -1,13 +1,5 @@
 class MoviesController < ApplicationController
   
-  def catagory(header)
-    if params[:sort] == header
-      'hilite'
-    end
-    # redirect_to movies_path
-  end
-  helper_method :catagory
-
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
@@ -28,6 +20,10 @@ class MoviesController < ApplicationController
       @movies = Movie.where(rating: ratings).order(@sort)
     end
     @all_ratings = Movie.collect
+    @checked = {}
+    if @checked == {}
+      @checked = Hash[Movie.collect.map {|rating| [rating,rating]}]
+    end
   end
 
   def new
@@ -57,5 +53,15 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
+  
+  def catagory(header)
+    if params[:sort] == header
+      'hilite'
+    end
+    # redirect_to movies_path
+  end
+  helper_method :catagory
 
 end
+
+
