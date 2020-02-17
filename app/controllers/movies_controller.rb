@@ -11,19 +11,40 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @sort = params[:sort]
-    @ratings = params[:ratings]
-    if @ratings == nil
-      @movies = Movie.order(@sort)
-    else
-      ratings = @ratings.keys
-      @movies = Movie.where(rating: ratings).order(@sort)
+    sort = params[:sort] || session[:sort]
+    if sort == 'title'
+      @title_color = 'hilite'
+    elsif sort == 'release_date'
+      @date_color = 'hilite'
     end
+    if !params.has_key?(:sort) && !params.has_key?(:ratings)
+      if session.has_key?(:sort) && session.has_key?(:ratings)
+        redirect_to movies_path(:sort=>session[:sort], :ratings=>session[:ratings])
+      elsif session.has_key?(:sort)
+        redirect_to movies_path(:sort=>session[:sort])
+      elsif(session.has_key?(:ratings))
+        redirect_to movies_path(:ratings=>session[:ratings])
+      end
+    end
+    
+    if params.has_key?(:sort)
+      session[:sort] = params[:sort]
+    end
+    @sort = session[:sort]
     @all_ratings = Movie.collect
-    @checked = {}
+    @ratings = params[:ratings]
+    @checked = params[:ratings]||session[:ratings]||{}
     if @checked == {}
-      @checked = Hash[Movie.collect.map {|rating| [rating,rating]}]
+      @checked = Hash[Movie.collect.map{|rating| [rating,1]}]
     end
+    if @ratings == nil
+      if !params.has_key?(:commit) && !params.has_key?(:sort)
+        session[:ratings] = Movie.collect
+      end
+    else
+      session[:ratings] = @ratings
+    end
+    @movies = Movie.where(rating: @checked.keys).order(@sort)
   end
 
   def new
@@ -53,14 +74,6 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
-  
-  def catagory(header)
-    if params[:sort] == header
-      'hilite'
-    end
-    # redirect_to movies_path
-  end
-  helper_method :catagory
 
 end
 
